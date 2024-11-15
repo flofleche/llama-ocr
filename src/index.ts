@@ -42,9 +42,10 @@ async function getMarkDown({
   - Complete Content: Do not omit any part of the page, including headers, footers, and subtext.
   `;
 
-  const finalImageUrl = isRemoteFile(filePath)
-    ? filePath
-    : `data:image/jpeg;base64,${encodeImage(filePath)}`;
+  const finalImageUrl =
+    isRemoteFile(filePath) || filePath.startsWith("data:image/jpeg;base64")
+      ? filePath
+      : `data:image/jpeg;base64,${encodeImage(filePath)}`;
 
   const output = await together.chat.completions.create({
     model: visionLLM,
